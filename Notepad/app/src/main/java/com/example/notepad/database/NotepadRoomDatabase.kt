@@ -4,10 +4,14 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import androidx.room.TypeConverters
+import com.example.notepad.converter.Converters
 import com.example.notepad.dao.NoteDao
 import com.example.notepad.model.Note
 
 @Database(entities = [Note::class], version = 1, exportSchema = false)
+//Using the @TypeConverters annotation the converters are added to the database.
+@TypeConverters(Converters::class)
 abstract class NotepadRoomDatabase : RoomDatabase() {
 
     abstract fun noteDao(): NoteDao
