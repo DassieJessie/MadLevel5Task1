@@ -5,14 +5,19 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.example.notepad.R
+import com.example.notepad.viewmodel.NoteViewModel
 import kotlinx.android.synthetic.main.fragment_add_note.*
 
 /**
  * A simple [Fragment] subclass as the second destination in the navigation.
  */
 class AddNoteFragment : Fragment() {
+
+    private val viewModel: NoteViewModel by viewModels()
 
     override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?,
@@ -28,9 +33,26 @@ class AddNoteFragment : Fragment() {
         btnSave.setOnClickListener{
             onSaveNote()
         }
+
+        observeNote()
+    }
+
+    private fun observeNote() {
+    //fill the text fields with the current text and title from the viewmodel
+        viewModel.note.observe(viewLifecycleOwner, Observer {
+                note  ->
+            note?.let {
+                tilNoteTitle.editText?.setText(it.title)
+                tilNoteText.editText?.setText(it.text)
+            }
+
+        })
     }
 
     private fun onSaveNote(){
+        //update note through the repository in the database
+        viewModel.updateNote(tilNoteTitle.editText?.text.toString(), tilNoteText.editText?.text.toString())
+
         findNavController().popBackStack()
     }
 }
