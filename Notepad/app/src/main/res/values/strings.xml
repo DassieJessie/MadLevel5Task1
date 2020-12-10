@@ -4,5 +4,5 @@
 
     <!-- Strings used for fragments for navigation -->
     <string name="title">My Notepad</string>
-    <string name="last_updated">Last updated: </string>
+    <string name="last_updated">Last updated: %1s</string>
 </resources>
